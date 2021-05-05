@@ -25,3 +25,16 @@
 - it makes sure anytime we change any code inside our auth directory, it syncs all the files with the appropriate running container inside of our cluster
 - write out skaffold.yaml in root of project
 - run skaffold dev
+
+### Ingress-nginx (load balancer service)
+
+- install ingress-nginx
+- anytime a request comes into our cluster, it will be handled by ingress
+
+run following command in case ingress is not connecting properly with our cluster
+
+```sh
+kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+```
+
+- in /etc/hosts add <minikube ip> domain_name so that everytime we want to access the domain_name, we get redirected to the minikube ip (this is only for minikube users, Mac/Windows write localhost instead of minikube ip)
