@@ -38,3 +38,25 @@ kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 ```
 
 - in /etc/hosts add <minikube ip> domain_name so that everytime we want to access the domain_name, we get redirected to the minikube ip (this is only for minikube users, Mac/Windows write localhost instead of minikube ip)
+
+### Error handling
+
+- we want consistent error handling across all our services
+- create error-handler.ts file inside of our middleware/ folder
+- then we want to create two separate classes (custom errors) based on the error we get (RequestValidationError and DatabaseError)
+
+```ts
+// Only because we are extending a built in class
+Object.setPrototypeOf(this, RequestValidationError.prototype);
+```
+
+#### Error handler logic problem
+
+- if we continue down this path, our error handler will become too large, it will have to handle every single error logic our app can encounter
+- to combat this we add a serializeError method to every error class
+- that way, the class itself handles the logic, our error handler does not need to worry about it
+
+#### Too many error handler instances
+
+- if we continue this way, our error handler is going to have to check for multiple instances of errors, which can become really messy
+- to fix this, we will write an abstract class and check for this instance only in our error handler
