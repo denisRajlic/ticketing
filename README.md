@@ -60,3 +60,7 @@ Object.setPrototypeOf(this, RequestValidationError.prototype);
 
 - if we continue this way, our error handler is going to have to check for multiple instances of errors, which can become really messy
 - to fix this, we will write an abstract class and check for this instance only in our error handler
+- the purpose of this is to use a class as we would an interface
+  - it provides a structure, which all sublcasses must follow
+  - abstract classes cannot be instantiated
+  - when translated to JS it creates a class, so we can use the instanceof check
