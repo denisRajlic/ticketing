@@ -64,3 +64,9 @@ Object.setPrototypeOf(this, RequestValidationError.prototype);
   - it provides a structure, which all sublcasses must follow
   - abstract classes cannot be instantiated
   - when translated to JS it creates a class, so we can use the instanceof check
+
+#### Async Error Handling
+
+- to make sure our error handler works correctly with async functions, we installed a npm package called express-async-errors
+
+### Database modeling
