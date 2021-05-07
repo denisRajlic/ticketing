@@ -70,3 +70,19 @@ Object.setPrototypeOf(this, RequestValidationError.prototype);
 - to make sure our error handler works correctly with async functions, we installed a npm package called express-async-errors
 
 ### Database modeling
+
+- install mongoose
+- create auth-mongo-depl.yaml file
+- in order to follow the course we had to change the mongodb version to a specific one, because the newest version implements their own @types, which override the ones used in the course
+
+#### Mongoose
+
+- create mongoose user model (mongoose and typescript do not work well together tho...sad fact)
+- by default mongoose doesn't provide enough info to TS about the types or arguments it expects
+- for this to work, when creating a new object (i.e. new User), we'll call our own custom function
+
+```ts
+const buildUser = (attrs: UserAttrs) => {
+  return new User(attrs);
+};
+```
