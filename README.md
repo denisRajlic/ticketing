@@ -86,3 +86,9 @@ const buildUser = (attrs: UserAttrs) => {
   return new User(attrs);
 };
 ```
+
+#### Password hashing
+
+- using scrypt with the node built-in package 'crypto'
+- the downside to scrypt is that it is callback-based, but we want to use async/await
+  - for that purpose, we use promisify, to turn the callback into a promise-based implementation
