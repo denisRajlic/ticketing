@@ -92,3 +92,19 @@ const buildUser = (attrs: UserAttrs) => {
 - using scrypt with the node built-in package 'crypto'
 - the downside to scrypt is that it is callback-based, but we want to use async/await
   - for that purpose, we use promisify, to turn the callback into a promise-based implementation
+
+### Authentication
+
+- we'll use JWT inside of a cookie, because we're using Next.js which needs to have auth info at the time of first request
+- npm i cookie-session @types/cookie-session
+- in our index.ts we add this cookie session and enable it only over https
+  - we don't sign (or encrypt) the cookie, because we would run into problems with decrypting in different languages
+  - we also don't need to ecnrypt it since, we don't store any secret info in our cookie
+- npm i jsonwebtoken @types/jsonwebtoken
+- once we get the token, it is inside of a cookie
+  - the actual value of the cookie is a jwt encoded with base64
+
+#### Storing and sharing secrets
+
+- we'll create an environment variable, which all our containers will access
+- kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf
