@@ -108,3 +108,31 @@ const buildUser = (attrs: UserAttrs) => {
 
 - we'll create an environment variable, which all our containers will access
 - kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf
+
+```ts
+// We add ! to tell TS we're sure this won't be undefined
+process.env.JWT_KEY!;
+```
+
+#### Common Response Properties
+
+- each of our services will use its own db, which can lead to problems
+- for example MongoDB uses the field \_id instead of id as in MySQL
+- what we want is a common response, regardless of the db we choose
+- to do that, we pass this as the second argument to the user schema
+
+```ts
+{
+  toJSON: {
+    transform(doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.password;
+      delete ret.__v;
+    },
+  },
+}
+```
+
+- if we were to follow the MVC (model, view, controller) way, this would be the view
+  - so in general not the best approach, but will work for our purposes
