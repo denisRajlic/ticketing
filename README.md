@@ -153,3 +153,9 @@ npm i -D @types/jest @types/supertest jest ts-jest supertest mongodb-memory-serv
 - modify line in Dockerfile to only install dependencies not devDependencies
 
 RUN npm install --only=prod
+
+- we use supertest to write fake request
+- for testing we'll use jest
+- by convention, when we want to test a file, we put the folder \_\_test\_\_ inside of the same folder and write our tests there
+- sometimes ts-jest won't detect changes you make to your test
+  - in this case it can help to restart jest
