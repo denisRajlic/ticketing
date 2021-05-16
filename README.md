@@ -159,3 +159,15 @@ RUN npm install --only=prod
 - by convention, when we want to test a file, we put the folder \_\_test\_\_ inside of the same folder and write our tests there
 - sometimes ts-jest won't detect changes you make to your test
   - in this case it can help to restart jest
+
+### NextJS
+
+- NextJS uses its own routing
+  - in the pages folder, the file structure determines the routes
+- build image and push to dockerhub
+
+#### Kubernetes setup
+
+- create client-depl file
+- add artifact entry into skaffold.yaml
+- add path to ingress-srv.yaml
