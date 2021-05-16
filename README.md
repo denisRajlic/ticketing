@@ -171,3 +171,14 @@ RUN npm install --only=prod
 - create client-depl file
 - add artifact entry into skaffold.yaml
 - add path to ingress-srv.yaml
+
+#### Next config file
+
+- this file is loaded automatically by NextJS whenever our project starts up
+- we add this config file, because NextJS sometimes doesn't show our code changes
+- here we say to poll our different files every 300ms
+- it's still not working 100% of the time
+
+#### Global CSS
+
+- create \_app.js file, which works as a wrapper for our app
