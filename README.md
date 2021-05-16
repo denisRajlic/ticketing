@@ -136,3 +136,20 @@ process.env.JWT_KEY!;
 
 - if we were to follow the MVC (model, view, controller) way, this would be the view
   - so in general not the best approach, but will work for our purposes
+
+#### Auth middlewares
+
+- we add auth middlewares to check if the users are authorized
+
+### Testing
+
+- we're going to test our microservices in isolation
+- install dependencies
+
+```sh
+npm i -D @types/jest @types/supertest jest ts-jest supertest mongodb-memory-server
+```
+
+- modify line in Dockerfile to only install dependencies not devDependencies
+
+RUN npm install --only=prod
