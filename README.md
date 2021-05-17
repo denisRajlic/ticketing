@@ -243,3 +243,8 @@ const pageProps = await appContext.Component.getInitialProps(appContext.ctx);
 - these two Components receive different arguments
 - Page Component receives context === { req, res }
 - Custom App Component receives context === { Component, ctx: { req, res }}
+
+#### Signout
+
+- when we want to sign out, the request needs to come from the browser, since the server doesn't care about cookies
+- that's why the request needs to come from the component, NOT the getInitialProps function
