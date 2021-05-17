@@ -182,3 +182,40 @@ RUN npm install --only=prod
 #### Global CSS
 
 - create \_app.js file, which works as a wrapper for our app
+
+#### Signup component
+
+- we created a custom hook called use-request, which we can use to handle our requests
+  - hooks can only be used by components (so not inside of getInitialProps, which is a plain function)
+
+#### ECONNREFUSED 127.0.0.1:80
+
+- getInitialProps is executed on the server, not in the browser (unless we navigate from one page to another **while in the app**)
+- in all other instances getInitialProps is executed on the server
+  - hard refresh of page
+  - clicking ink from different domain
+  - typing URL into address bar
+- when making a request inside of getInitialProps, we get an ECONNREFUSED 127.0.0.1:80
+  - the reason for this is that when the server makes the request, we don't get redirected back outside of ingress, so we're still inside of the client container...nothing is running on port 80 there, so that's the reason for the error.
+  - if we make this same request inside of the component, the problem goes away, since the request is made by the browser which is not inside of our k8s cluster
+
+##### Problems with namespace
+
+- all the different objects we create inside of kubernetes are created under a specific **Namespace**
+- our objects are stored in the 'default' namespace
+- ingres-nginx is inside of 'ingress-nginx' namespace
+- objects inside of the same namespace can communicate with each-other by simply typing the name of the clusterIp service inside of the url
+  - http://auth-srv
+- cross namespace communication usesa a different pattern
+
+  - http://NAMEOFSERVICE.NAMESPACE.svc.cluster.local
+  - kubectl get namespace
+  - kubectl get services (only lists services inside of default namespace)
+  - kubectl get services -n ingress-nginx
+
+- if we make a request from the browser, we don't need to worry about the domain issue, only inside of getInitialProps
+- so inside of getInitialProps we have to check whether we are inside of the client or server
+  - to do this, we can check if window is defined (it's defined inside of browser)
+
+This should be the url
+http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser

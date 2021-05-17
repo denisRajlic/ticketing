@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Router from 'next/router';
-import useRequest from '../../hooks/use-request';
+import UseRequest from '../../hooks/use-request';
 
-const signUp = () => {
+const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { doRequest, errors } = useRequest({
+  const { doRequest, errors } = UseRequest({
     url: '/api/users/signup',
     method: 'post',
     body: {
@@ -47,4 +47,4 @@ const signUp = () => {
   );
 };
 
-export default signUp;
+export default SignUp;
