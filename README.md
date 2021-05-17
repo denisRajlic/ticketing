@@ -219,3 +219,27 @@ RUN npm install --only=prod
 
 This should be the url
 http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser
+
+##### Refactor to buildClient
+
+- we created a buildClient function which handles everything for us
+
+#### Moving getInitialProps
+
+- the header will also need to know whether the user is logged in or not...for that reason, the \_app component will handle the request inside of its getInitialProps function to fetch the currentUser
+- so that means our index.js does not need the getInitialProps function anymore...at least for now
+- but later on, we'll probably want to have it for other purposes
+- as it turns out, this is a bigger problem in Next.js than you'd think at first, because once we add getInitialProps to \_app, the one in index.js is not being invoked anymore
+- we solve this by manually invoking the function inside of \_app
+
+```js
+const pageProps = await appContext.Component.getInitialProps(appContext.ctx);
+```
+
+#### Issues with Custom App getInitialProps
+
+- when we're in our pages/ directory, we define what are called **Page** Components
+- but our \_app is a **Custom App** Component
+- these two Components receive different arguments
+- Page Component receives context === { req, res }
+- Custom App Component receives context === { Component, ctx: { req, res }}
