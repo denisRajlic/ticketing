@@ -267,3 +267,16 @@ npm publish --access public
 ```
 
 - our common library will be written as TS and published as JS
+- when we update our package, we need to change the version number...there are 2 ways to do this
+  - manually write it out in the package.json file
+  - run following command which will do this for us automatically
+
+```sh
+npm version patch
+```
+
+- read about semantic versioning for more info
+
+#### Relocating Shared Code
+
+- from our auth service, we moved the errors and middleware folders into the common folder
