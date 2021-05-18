@@ -248,3 +248,22 @@ const pageProps = await appContext.Component.getInitialProps(appContext.ctx);
 
 - when we want to sign out, the request needs to come from the browser, since the server doesn't care about cookies
 - that's why the request needs to come from the component, NOT the getInitialProps function
+
+### Code Sharing and Reuse Between Services
+
+- a lot of the things our auth service contains is going to be used between other services aswell
+- for this purpose we're going to create a Shared Library which will contain this functionality
+
+#### How will we solve this
+
+- we'll create an NPM package and publish it, then reuse it in our components
+- we created a public organization (because its free) called tickets-tutorial
+- then inside of a newly created package.json file we update the name field to : @tickets-tutorial/common
+  - which means we want to publish a package called common to the tickets-tutorial organization
+- inside of our common/ folder we initialize a new git repository, commit changes and run this command (you need to login first with npm login)
+
+```sh
+npm publish --access public
+```
+
+- our common library will be written as TS and published as JS
