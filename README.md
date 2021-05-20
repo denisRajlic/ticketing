@@ -306,3 +306,39 @@ npm version patch
 - for testing authentication, we do NOT want to access other services whatsover
   - so for this, we'll fake auth requests
   - when using supertest, we are expected to return an array of strings as a cookie value
+
+### NATS Streaming Server - Event Bus Implementation
+
+- docs at docs.nats.io
+- **NATS** and **NATS Streaming Server** are two different things
+  - in the course we refer to NATS Streaming Server as just NATS, for simplicity, but they are different things
+- create nats-depl.yaml
+
+#### How is NATS different from our Custom Event Bus
+
+- our Custom Event Bus shared events using Axios + Express
+  - it sent events to every service
+  - it stored events in memory
+- to communicate with NATS we'll use a client-library called node-nats-streaming
+  - NATS requires us to subscribe to channels (or topics). Events are emitted to specific channels
+  - NATS stores all events in memory by default, however we can customize it to store these events inside of flat files stored on a hard drive or even inside of a db MySQL/Postgres DB
+
+#### NATS Test Project
+
+- install @types/events so the ts errors go away
+- this will be just to get familiar with NATS
+- this will run outside of kubernetes
+- for development purposes, we will use port forwarding with kubectl to connect to our cluster via a specific port
+- some terminology:
+  - the subject is the name of the channel we want to publish information to
+  - the channel is something we listen to
+  - subscription is something that will listen to the channel and eventually receive some data
+
+##### Publisher
+
+- with nats we can only share strings or raw data
+  - for this purpose we'll convert all our data to JSON before sending
+- when we publish, the first argument is the subject name, the second is the data, and the third is a function which get invoked after we publish the data
+- the data we publish is most commonly reffered to as a message
+
+##### Listener
