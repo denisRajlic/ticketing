@@ -267,6 +267,7 @@ npm publish --access public
 ```
 
 - our common library will be written as TS and published as JS
+- in our tsconfig.json file we uncomment the line with declaration and outDir
 - when we update our package, we need to change the version number...there are 2 ways to do this
   - manually write it out in the package.json file
   - run following command which will do this for us automatically
@@ -280,3 +281,28 @@ npm version patch
 #### Relocating Shared Code
 
 - from our auth service, we moved the errors and middleware folders into the common folder
+- in our common folder there's an index.ts file which is used for re-exporting everything in errors and middleware
+  - we do this, so that in our services we can import stuff from the package name alone i.e. @tickets-tutorial/common
+
+#### Mono or multi repo?
+
+- if you go the monorepo route, you can use lerna
+- in the course he uses multi-repo
+
+### Create-Read-Write-Delete Server Setup
+
+- copy some files from auth into tickets folder, to save some time
+- build image & push to dockerhub
+- create tickets-depl.yaml file
+- create tickets-mongo.yaml file
+- update skaffold file
+- connect to MongoDB via environment variables
+
+#### TDD Approach
+
+- we wrote out tests in advance to be able to easily visualize what we need to implement
+- for every request that comes into our tickets service, we need to call the currentUser middleware from our common package
+- but the requireAuth middleware is only needed for certain requests
+- for testing authentication, we do NOT want to access other services whatsover
+  - so for this, we'll fake auth requests
+  - when using supertest, we are expected to return an array of strings as a cookie value
