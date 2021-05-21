@@ -474,6 +474,7 @@ jest.mock('../nats-wrapper.ts');
   - duplicate tickets service
   - install dependencies
   - build image
+  - push image
   - k8s depl file
   - set up file sync options in skaffold
   - set up routing rules in ingress
