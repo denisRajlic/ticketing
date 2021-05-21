@@ -457,3 +457,23 @@ const subscription = stan.subscribe(
 // We include this in our setup.ts file so that every test uses it
 jest.mock('../nats-wrapper.ts');
 ```
+
+- create more env variables to connect to NAST
+
+### Cross-Service Data Replication In Action
+
+#### Orders Service
+
+- it will contain some replication of Ticket data
+- it will contain data about the order
+  - userId
+  - status
+  - expiresAt
+  - ticketId
+- setup
+  - duplicate tickets service
+  - install dependencies
+  - build image
+  - k8s depl file
+  - set up file sync options in skaffold
+  - set up routing rules in ingress
