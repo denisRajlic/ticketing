@@ -432,3 +432,28 @@ const subscription = stan.subscribe(
 
 - we'll have to create a NATS singleton
 - this will be done so that we don't get a circular dependency
+
+#### Handling publish errors
+
+- we could potentially save a ticket to the db, but fail to publish it to NATS
+- what we'll do is, we'll save the event to the db
+- if ANY of these fails, we'll revert all
+- so we'd have separate code/process watching the Events collection and sending it off to NATS
+- we won't do it in this course, since the lecturer doesn't think we would ever run into this and it adds a lot of complexity
+  - in the Udemy Q&A section, someone seems to have already found a solution to this problem, so maybe implement that
+
+#### Problems with testing
+
+- natsWrapper is uninitialized in our testing environment
+- we'll use a fancy feature inside of Jest that lets use mock (fake) imports
+- the process is as follows
+  - we find the file we want to fake
+  - in the same directory we create a folder called \_\_mocks\_\_
+  - in that folder, create a file with an identical name to the file we want to fake
+  - write a fake implementation
+  - tell jest to use that fake file in our test file
+
+```ts
+// We include this in our setup.ts file so that every test uses it
+jest.mock('../nats-wrapper.ts');
+```
