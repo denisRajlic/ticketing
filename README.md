@@ -418,3 +418,17 @@ const subscription = stan.subscribe(
 - then we extend this class
 - create enum for subjects so we can tell ts what kind of properties our message data will have
 - using generics (which can be a pain in the ass) we can handle this problem
+
+#### Common Module
+
+- we'll move the exact definitions of events as well as the listing of event names (subjects) into our common module
+- the downside to this approach is that all our servers will need to be written in ts
+- alternatives are:
+  - JSON Schema
+  - Protobuf
+  - Apache Avro
+
+### Managing a NATS Client
+
+- we'll have to create a NATS singleton
+- this will be done so that we don't get a circular dependency
