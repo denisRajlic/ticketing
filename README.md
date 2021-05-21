@@ -342,3 +342,79 @@ npm version patch
 - the data we publish is most commonly reffered to as a message
 
 ##### Listener
+
+- listens for messages
+
+#### Queue Group
+
+- inside of a channel are Queue groups which help us send events to only one subscription
+- this is done in order to prevent multiple instances of a listener to receive the same event
+
+#### Subscription Options
+
+- setManualAckMode(true)
+  - we will manually acknowledge the event, so it doesn't accidentally get lost
+  - if we don't acknowledge the event manually, it waits 30s, then sends the event again
+
+```ts
+msg.ack();
+```
+
+- when we restart a client, or if a client goes down, NATS still holds on to the event for a brief period of time
+- this is done because it thinks it will come back online
+- to handle this we'll add some code to gracefully closedown the client
+
+```ts
+process.on('SIGINT', () => stan.close());
+process.on('SIGTERM', () => stan.close());
+```
+
+- this still doesn't work 100% of the time tho..
+
+#### Core Concurrency Issues
+
+- probably most important video
+- waiting 30s for NATS to send the event again could break our app if other events continue to flow
+- we might receive the same event twice
+- listener can fail to process the event
+- one listener might run more quickly than another
+- NATS might think a client is still alive when it is dead
+- these issues still arrise even if we had a monolithic approach or a sync communication
+
+#### Solution
+
+- we'll add a version number to our records, so we can process events in the correct order
+
+#### setDeliverAllAvailable & durableSubscription
+
+- will send us all events
+- this can be a problem if there's too many events
+- for this reason we'll use a different option called durable subscription
+- this will keep track of all the events our service has or has not processed
+  - the way it works is, inside of our channel are durable subscriptions
+    - each subscription has a name and it processes events
+  - if, for some reason, our service is down, it won't process certain events
+  - once it gets back up, NATS is going to send the events that werent processed
+- we still need setDeliverAllAvailable set, so that the first time we create a subscription, we get sent the events that were emited in the past
+- on any restart, setDeliverAllAvailable will be ignored, so that we don't get the events we have already processed
+
+```ts
+const options = stan
+  .subscriptionOptions()
+  .setManualAckMode(true)
+  .setDeliverAllAvailable()
+  .setDurableName('accounting-service');
+
+const subscription = stan.subscribe(
+  'ticket:created',
+  'orders-service-queue-group',
+  options
+);
+```
+
+### Conecting to NATS in a Node JS World
+
+- to refactor we create a listner abstract class
+- then we extend this class
+- create enum for subjects so we can tell ts what kind of properties our message data will have
+- using generics (which can be a pain in the ass) we can handle this problem
