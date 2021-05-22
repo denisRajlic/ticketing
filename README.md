@@ -516,6 +516,21 @@ body('ticketId')
 - we have a similar model inside the ticket service, so we might be tempted to extract the logic into our common model and share it among other services
 - but that is NOT the case, since in our new ticket model (inside orders), we'll have a different definitions about the ticket
 
+### Understanding event flow
+
+- a lot of services need to be aware of the ticket:created event
+- we need to decide which properties to send along the event
+- we may want to future-proof our interface and include as much as possible, or send just the bare minimum, so our events have only what we need
+- then if we need something in the future, we add this the missing properties in and upload the common module again
+
+#### Date
+
+- when our order gets turned to JSON, our expiresAt will be a string
+- if we rely on the Date object, then we'd get the string representing the current timezone that it is in
+- we want to have consistent timestamps
+- we would be providing a UTC timestamp
+  - we do it with toISOString()
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
