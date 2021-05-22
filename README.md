@@ -478,3 +478,46 @@ jest.mock('../nats-wrapper.ts');
   - k8s depl file
   - set up file sync options in skaffold
   - set up routing rules in ingress
+
+#### Question about assumptions
+
+- when building our new order route handler we are making an assumption about the structure of the ticketId
+
+```ts
+body('ticketId')
+      .not()
+      .isEmpty()
+      .custom((input: string) => mongoose.Types.ObjectId.isValid(input))
+      .withMessage('ticketId must be provided'),
+```
+
+- this may not be a good approach, since we are making an assumption that the tickets service is going to use MongoDB
+- for us it's OK since we know about the DB we're using, but it's something to keep in mind
+
+#### What is an order?
+
+- how will we relate an order to a ticket?
+- we'll use mongoose ref/population Feature
+  - inside of every order we'll have a reference to the Ticket colletion
+
+#### Model reminder
+
+- whenever we're getting mongoose and ts to work together, we're writing the 3 interfaces on the top of our file
+- OrderAttrs describes the properties to create the order
+- OrderDoc describes the properties that a saved document has
+- OrderModel describes the properties the overall model it has --> the model represents the overall collection
+- when writing interfaces we're using lowercase for types (string)
+  - but when writing the mongoose schema and adding the type property, we're using uppercase since that is actual js code that will get executed. It has uppercase because that is the actual String constructor
+- for the order status, instead of using a string, we'll use an enum to avoid typing errors
+
+#### Mongoose Ref
+
+- inside of our orders directory, we'll create a ticket model
+- we have a similar model inside the ticket service, so we might be tempted to extract the logic into our common model and share it among other services
+- but that is NOT the case, since in our new ticket model (inside orders), we'll have a different definitions about the ticket
+
+# My questions
+
+- how to store env variables (probably config file) & where to keep it safe
+- updates to mongodb-server definition file could break our app
+- update k8s to new API (since the apiVersion will be deprecated soon)

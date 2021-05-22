@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 import { OrderStatus } from '@tickets-tutorial/common';
 import { TicketDoc } from './ticket';
 
+// The reason for exporting OrderStatus is to have a single source of order related stuff
+export { OrderStatus };
+
 interface OrderAttrs {
   userId: string;
   status: OrderStatus;
