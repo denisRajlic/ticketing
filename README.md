@@ -577,6 +577,25 @@ body('ticketId')
 - expiration services will set the timer and emit the expiration:complete event
 - we'll use Bull JS, which relies on a copy of Redis
 
+#### What Does Bull Do?
+
+- Bull handles the entire process from setting the initial job to processing it, to sending back a notification that the job is complete
+- bull creates a queue and adds jobs to the end of it
+
+#### Bull Flow
+
+- our expiration service will receive an order:created event
+- in our service we'll have an expirationQueue thing to enqueue (or essentially publish) a job
+- a job can be thought of as an event
+- this job will be sent to the redis server
+  - the job contains a type
+- the redis server will contain a list of different jobs with a specific type
+  - the job will be temporarily stored until we reach our time limit (15min in our example)
+  - one the time expires, the job will be sent back to expirationQueue, which will process the job
+- after that we'll emit an event of expriation:complete
+  - this event will only conatin the orderId which has expired
+- so our job will also only contain this info
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
