@@ -564,6 +564,10 @@ body('ticketId')
 - if we had something else, this wouldn't be the case anymore, so we could change it
 - the way we do this is described in the video (optional), by making an update to the documents $where property
 
+#### Missing events
+
+- whenever we make a change to our record, we have to emit an event
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
