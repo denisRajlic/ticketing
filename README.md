@@ -600,6 +600,12 @@ body('ticketId')
 
 - create payment service
 - our payment service will contain information about orders
+  - it will contain the following info
+    - id
+    - status
+    - version
+    - userId
+    - price
 
 # My questions
 
