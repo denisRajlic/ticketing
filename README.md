@@ -531,6 +531,39 @@ body('ticketId')
 - we would be providing a UTC timestamp
   - we do it with toISOString()
 
+### Listening for Events and Handling Concurrency issues
+
+- we'll create listeners in our ticket and order services
+- in our listeners we must specify the subject, queueGroupName and the onMessage method
+  - queueGroup name is used, so that multiple instances of a service can subscribe to one channel and the event will be sent to only one of those instances
+    - we do not want every instance of our service to receive the same event
+  - the only requirement is that the queueGroupName must be unique for all the different services that are going to create subscriptions inside this channel and it must stay consistent over time
+
+#### Event Flow
+
+- Orders needs to know about ticket:created event because:
+  - it needs to know the valid tickets that can be purchased
+  - it needs to know the price of each ticket
+
+#### Problem with IDs
+
+- whenever we replicate data across services, we want to make sure to have identical IDs between them
+
+#### Optimistic Concurrency Control
+
+- mongoose will automatically update the version field of the document automatically
+- we'll use the mongoose-update-if current module
+- this will update the version on the document after every save
+  - in mongoose 5.10. we don't need a plugin, but in that version, mongoose changes the version number after the content in the document has changed
+  - but we assume, we change the version after every save, which could cause problems
+- only the primary service responsible for a record can increment the version number
+
+#### Alternative to UpdateIfCurrentPlugin
+
+- this plugin assumes we're incrementing the version number by 1 and start at 0
+- if we had something else, this wouldn't be the case anymore, so we could change it
+- the way we do this is described in the video (optional), by making an update to the documents $where property
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
