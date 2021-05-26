@@ -572,6 +572,11 @@ body('ticketId')
 
 - in our index.ts file we have to actually call the listen method, to listen to events
 
+### Worker Services
+
+- expiration services will set the timer and emit the expiration:complete event
+- we'll use Bull JS, which relies on a copy of Redis
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
