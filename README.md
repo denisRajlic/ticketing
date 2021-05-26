@@ -568,6 +568,10 @@ body('ticketId')
 
 - whenever we make a change to our record, we have to emit an event
 
+#### Don't Forget to Listen!
+
+- in our index.ts file we have to actually call the listen method, to listen to events
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
