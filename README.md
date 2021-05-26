@@ -596,6 +596,11 @@ body('ticketId')
   - this event will only conatin the orderId which has expired
 - so our job will also only contain this info
 
+### Handling Payments
+
+- create payment service
+- our payment service will contain information about orders
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
