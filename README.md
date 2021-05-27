@@ -607,6 +607,19 @@ body('ticketId')
     - userId
     - price
 
+#### Using Stripe
+
+- We will receive a token from stripe which acts as some sort of authentication
+- npm i stripe
+- go to stripe site and create account
+- get api key and save it as an environment variable inside k8s
+- by default we're in test mode
+  - and therefore we don't have access to the actual token from the user, we can use tok_visa, which always works
+
+#### Testing Stripe
+
+- we can either use the mock approach or the realistic way
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
