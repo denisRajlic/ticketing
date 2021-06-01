@@ -9,7 +9,7 @@ router.get('/api/orders', requireAuth, async (req: Request, res: Response) => {
     'ticket'
   );
 
-  res.send({ orders });
+  res.send(orders);
 });
 
 export { router as indexOrderRouter };
