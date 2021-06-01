@@ -622,6 +622,28 @@ body('ticketId')
 
 ### Back to Client
 
+#### Navigating to wildcard routes
+
+- whenever we navigate to a wildcard route, we must use the following way
+- we have to separately provide the 'as' attribute which is the url
+
+```js
+<Link href="/tickets/[ticketId]" as={`/tickets/${ticket.id}`}>
+  <a>View</a>
+</Link>
+```
+
+#### Quick React tip
+
+- if we put () after the function name for example:
+
+```js
+onClick={doRequest()}
+```
+
+- this function will be invoked whenever the component renders
+- if we, however, emit the (), we only provide a reference to the function and it will be invoked on click
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
