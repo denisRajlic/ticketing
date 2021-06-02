@@ -37,7 +37,7 @@ const ticketSchema = new mongoose.Schema(
   },
   {
     toJSON: {
-      transform(doc, ret) {
+      transform(ret) {
         ret.id = ret._id;
         delete ret._id;
       },
@@ -68,6 +68,7 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
 ticketSchema.methods.isReserved = async function () {
   // this === the ticket document that we just called 'isReserved' on
   const existingOrder = await Order.findOne({
+    // @ts-ignore
     ticket: this,
     status: {
       $in: [
