@@ -644,6 +644,28 @@ onClick={doRequest()}
 - this function will be invoked whenever the component renders
 - if we, however, emit the (), we only provide a reference to the function and it will be invoked on click
 
+### CI/CD
+
+#### Development Workflow
+
+- Local Machine
+  - Make change to code for tickets service
+  - commit code to a git branch (any besides master/main!)
+  - push branch to github
+- Github
+  - Github receives updated branch
+  - You manually create a pull request to merge branch into master/main
+  - Github automatically runs tests for project
+  - After tests pass you merge the PR into master/main branch
+  - Because master/main branch has changed, github builds and deploys
+
+#### Git Repository Approaches
+
+- Repo-Per-Service Approach
+- Mono Repo Approach
+  - Create Single Git Repository
+  - Is most commonly used and is what we'll use
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
