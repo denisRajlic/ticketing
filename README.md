@@ -666,6 +666,16 @@ onClick={doRequest()}
   - Create Single Git Repository
   - Is most commonly used and is what we'll use
 
+#### Github Actions
+
+- there are certain events that can trigger a github action
+  - pull requests
+  - code push...
+- we created a .github/workflows/tests.yml file where we specified the requirements for the action
+- whenever we get a pull_request event, we want to run the automated tests in our auth folder
+- but if we run just npm run test:ci, this will run jest in watch mode, which is going to watch for changes
+- since we want to exit the test suite after the initial passthrough, we'll create a separate script for this
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
