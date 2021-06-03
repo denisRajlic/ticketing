@@ -676,6 +676,13 @@ onClick={doRequest()}
 - but if we run just npm run test:ci, this will run jest in watch mode, which is going to watch for changes
 - since we want to exit the test suite after the initial passthrough, we'll create a separate script for this
 
+#### Deployment Options
+
+- Digital Ocean (cheapest and easiest to use)
+- Google Cloud
+- Azure
+- AWS (Hardest)
+
 # My questions
 
 - how to store env variables (probably config file) & where to keep it safe
