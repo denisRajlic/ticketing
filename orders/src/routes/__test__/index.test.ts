@@ -49,10 +49,12 @@ it('fetches orders for a particular user', async () => {
     .set('Cookie', userTwo)
     .expect(200);
 
+  console.log(response.body[0].ticket);
+
   // Make sure we only got the orders for User #2
-  expect(response.body.orders.length).toEqual(2);
-  expect(response.body.orders[0].id).toEqual(orderOne.id);
-  expect(response.body.orders[1].id).toEqual(orderTwo.id);
-  expect(response.body.orders[0].ticket.id).toEqual(ticketTwo.id);
-  expect(response.body.orders[1].ticket.id).toEqual(ticketThree.id);
+  expect(response.body.length).toEqual(2);
+  expect(response.body[0].id).toEqual(orderOne.id);
+  expect(response.body[1].id).toEqual(orderTwo.id);
+  expect(response.body[0].ticket.id).toEqual(ticketTwo.id);
+  expect(response.body[1].ticket.id).toEqual(ticketThree.id);
 });
